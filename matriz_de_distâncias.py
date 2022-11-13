@@ -189,18 +189,16 @@ def vetorizacao(tf_idf):
     vetores.append([tf_idf[i][0]])
     for j in range(len(tf_idf)):
       vetores[i].append(0.0)
+
   for i in range(len(tf_idf)):
-    a = tf_idf[i][1:]
     for j in range(i,len(tf_idf)):
-      b = tf_idf[j][1:]
+      cos_sim = 1.0
       if i!=j:
-        cos_sim = np.dot(a,b)/(np.linalg.norm(a)*np.linalg.norm(b))
-      else:
-        cos_sim = 1.0
-      vetores[i][j+1] = cos_sim
-      if  i!=j:
+        cos_sim = np.dot(tf_idf[i][1:],tf_idf[j][1:])/(np.linalg.norm(tf_idf[i][1:])*np.linalg.norm(tf_idf[j][1:]))
         vetores[j][i+1] = cos_sim
+      vetores[i][j+1] = cos_sim
   return vetores
+
 vetores_final = vetorizacao(tf_idf_final)
 for i in range(25):
   print(vetores_final[i])
